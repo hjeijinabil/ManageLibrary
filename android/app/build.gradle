@@ -1,0 +1,56 @@
+plugins {
+    id "com.android.application"
+    // START: FlutterFire Configuration
+    id 'com.google.gms.google-services'  // Applique le plugin Google Services pour Firebase
+    // END: FlutterFire Configuration
+    id "kotlin-android"
+    // Le plugin Flutter Gradle doit être appliqué après les plugins Android et Kotlin.
+    id "dev.flutter.flutter-gradle-plugin"
+}
+
+android {
+    namespace = "com.example.flutterproject"  // Remplacez par votre propre namespace si nécessaire
+    compileSdk = flutter.compileSdkVersion
+    ndkVersion = flutter.ndkVersion
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        // Remplacez par votre ID d'application unique.
+        applicationId = "com.example.flutterproject"
+        minSdk = 23  // Vous pouvez ajuster cela en fonction des exigences de Firebase.
+        targetSdk = flutter.targetSdkVersion
+        versionCode = flutter.versionCode
+        versionName = flutter.versionName
+    }
+
+    buildTypes {
+        release {
+            // Configurez la signature de votre application ici pour le build de production.
+            signingConfig = signingConfigs.debug
+        }
+    }
+
+    // Ajoutez cette ligne pour configurer Firebase à travers le fichier google-services.json
+    apply plugin: 'com.google.gms.google-services'
+}
+
+flutter {
+    source = "../.."
+}
+
+dependencies {
+    // Ajoutez la version de Firebase BoM (Bill of Materials) pour éviter de gérer les versions individuellement
+    implementation platform('com.google.firebase:firebase-bom:33.7.0')
+    implementation 'com.google.firebase:firebase-analytics'  // Exemple, vous pouvez ajouter d'autres dépendances Firebase si nécessaire
+    // Exemple d'ajout de Firebase Auth, Firestore, etc.
+    // implementation 'com.google.firebase:firebase-auth'
+    // implementation 'com.google.firebase:firebase-firestore'
+}
